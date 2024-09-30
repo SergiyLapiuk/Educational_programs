@@ -1,0 +1,103 @@
+﻿@model IEnumerable<EdPro.Models.EducationProgram>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Освітні програми</h1>
+@if (User.IsInRole("admin") || User.IsInRole("worker"))
+{
+<p>
+    <a asp-action="Create"><button type="button" class="btn btn-secondary">Додати освітню програму</button></a>
+</p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Edbo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImplementationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EdPrType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Faculty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Speciality)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Edbo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImplementationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EdPrType.TypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Faculty.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Speciality.Name)
+            </td>
+            <td>
+                    @if (User.IsInRole("admin") || User.IsInRole("worker"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id"><button type="button" class="btn btn-outline-info">Редагувати</button></a>
+                    <p></p>
+                    }
+                    <a asp-action="Analyze" asp-route-id="@item.Id"><button type="button" class="btn btn-outline-info">Аналізувати</button></a>
+                    <p></p>
+                    <a asp-action="Details" asp-route-id="@item.Id"><button type="button" class="btn btn-outline-info">Предмети</button></a>
+                    <p></p>
+                    @if (User.IsInRole("admin") || User.IsInRole("admin"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id"><button type="button" class="btn btn-outline-danger">Видалити</button></a>
+                    }
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div class="container">
+    <div id="chart1"></div>
+</div>
+
+@section scripts{
+    <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Chart/JsonDataEdProgramTypes', function (JsonData) {
+                data = google.visualization.arrayToDataTable(JsonData, false);
+                var option = {
+                    title: "Співвідношення кількості освітніх програм та типів освітніх програм",
+                    width: 500,
+                    height: 400
+                };
+                chart = new google.visualization.BarChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+}

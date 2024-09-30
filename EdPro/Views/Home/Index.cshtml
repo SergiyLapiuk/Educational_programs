@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Навчальні програми";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>@User.Identity.Name</p>
+
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Вихід" />
+    </form>
+}
+else
+{
+    <p></p>
+    <a asp-controller="Account" asp-action="Login"><button type="button" class="btn btn-outline-info">Вхід</button></a>
+    <a asp-controller="Account" asp-action="Register"><button type="button" class="btn btn-outline-info">Реєстрація</button></a>
+}
+

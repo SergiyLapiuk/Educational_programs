@@ -1,0 +1,57 @@
+﻿@model EdPro.Models.Subject
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Додавання предмету до навчальної програми @ViewBag.EducationProgramName</h1>
+
+<h4>Предмет</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+@*            <div class="form-group">
+                <label asp-for="EprogramId" class="control-label"></label>
+                <select asp-for="EprogramId" class ="form-control" asp-items="ViewBag.EprogramId"></select>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Credit" class="control-label"></label>
+                <input asp-for="Credit" class="form-control" />
+                <span asp-validation-for="Credit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ControlId" class="control-label"></label>
+                <select asp-for="ControlId" class ="form-control" asp-items="ViewBag.ControlId"></select>
+            </div>
+
+            <input type="hidden" value="@ViewBag.EducationProgramId" name="EducationProgramId" />
+
+            <p></p>
+
+            <div class="form-group">
+                <input type="submit" value="Додати" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <p class="text-danger">@ViewData["ErrorMessage"]</p>
+</div>
+
+@*<div>
+    <a asp-action="Index">Повернутися</a>
+</div>*@
+
+@Html.ActionLink("Повернутись","Index", new {id = ViewBag.EducationProgramId, name = ViewBag.EducationProgramName, specialityId = ViewBag.EducationProgramSpecialityId, edbo = ViewBag.EducationProgramEdbo, edPrTypeId = ViewBag.EducationProgramEdPrTypeId, facultyId = ViewBag.EducationProgramFacultyId, implementationDate = ViewBag.EducationProgramImplementationDate}, new { @class = "btn btn-secondary" })
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

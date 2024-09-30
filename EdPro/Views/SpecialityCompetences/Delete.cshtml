@@ -1,0 +1,33 @@
+﻿@model EdPro.Models.SpecialityCompetence
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Видалення</h1>
+
+<h3>Ви впевнені, що хочете видалити компетентність з спеціальності @ViewBag.SpecialityName?</h3>
+<div>
+@*    <h4>SpecialityCompetence</h4>*@
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Competence)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Competence.Competence1)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Speciality)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Speciality.Name)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Видалити" class="btn btn-danger" /> 
+        @Html.ActionLink("Повернутись","Index", new {id = ViewBag.SpecialityId, name = ViewBag.SpecialityName}, new { @class = "btn btn-secondary" })
+    </form>
+</div>

@@ -1,0 +1,55 @@
+﻿@model EdPro.ViewModel.LoginViewModel
+<div class="row">
+    <div class="col-md-6">
+        <h1>Вхід</h1>
+        <hr />
+        <div class="text-danger">@ViewBag.F</div>
+        <form method="post" asp-controller="Account" asp-action="Login"
+              asp-route-returnUrl="@Model.ReturnUrl">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div>
+                <label asp-for="Email"></label><br />
+                <input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div>
+                <label asp-for="Password"></label><br />
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div>
+                <label asp-for="RememberMe"></label><br />
+                <input asp-for="RememberMe" />
+            </div>
+            <div>
+                <input type="submit" value="Увійти" class="btn btn-primary" />
+            </div>
+        </form>
+        <a asp-controller="Account" asp-action="ForgotPassword" >Забули пароль?</a>
+    </div>
+<div class="col-md-6">
+        <h1>Вхід Google</h1>
+    <hr />
+    @{
+        if (Model.ExternalLogins == null)
+        {
+            <div>No external logins configured</div>
+        }
+        else
+        {
+                <form method="post" asp-controller="Account" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+                <div>
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        <button type="submit" class="btn btn-primary" style="width:auto"
+                        name="provider" value="@provider.Name"
+                        title="Login using your @provider.DisplayName account">
+                            @provider.DisplayName
+                        </button>
+                    }
+                </div>
+            </form>
+        }
+    }
+</div>
+</div>

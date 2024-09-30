@@ -1,0 +1,49 @@
+﻿@model IEnumerable<EdPro.Models.EpSubjectLoutcome>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Навчальні результати предмету:</h1>
+@if (User.IsInRole("admin"))
+{
+<p>
+    @Html.ActionLink("Додати навчальний результат", "Create", new {SubjectId = @ViewBag.SubjectId}, new { @class = "btn btn-secondary" })
+</p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LearningOutcome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LearningOutcome.Loname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.Name)
+            </td>
+            <td>
+                    @if (User.IsInRole("admin"))
+                    {
+                <a asp-action="Edit" asp-route-id="@item.Id"><button type="button" class="btn btn-outline-info">Редагувати</button></a>
+                    }
+                <a asp-action="Details" asp-route-id="@item.Id"><button type="button" class="btn btn-outline-info">Деталі</button></a> 
+                    @if (User.IsInRole("admin"))
+                    {
+                <a asp-action="Delete" asp-route-id="@item.Id"><button type="button" class="btn btn-outline-danger">Видалити</button></a>
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
